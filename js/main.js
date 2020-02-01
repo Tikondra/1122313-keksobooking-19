@@ -1,5 +1,10 @@
 'use strict';
 
+var LEFT_MOUSE = 1;
+var ENTER_KEY = 'Enter';
+var PIN__WIDTH = 65;
+var PIN__HEIGHT = 65;
+var PIN__TAIL = 19;
 var OBJECT_COUNT = 8;
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS = [1, 2, 3, 4, 5];
@@ -11,26 +16,26 @@ var LOCATIONS = [
   [300, 400, 500, 250, 300, 350, 600, 750],
   [200, 300, 250, 350, 500, 350, 500, 450]
 ];
-
 var authors = [];
 var titles = ['Студия', 'Квартира', 'Дом', 'Коттедж', 'Комната', 'Офис', 'Гараж', 'Сарай'];
 var addresses = ['600, 350', '500, 400', '550, 380', '400, 530', '430, 500', '410, 400', '530, 350', '620, 300'];
 var prices = [];
 var descriptions = ['Студия', 'Квартира', 'Дом', 'Коттедж', 'Комната', 'Офис', 'Гараж', 'Сарай'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-
 var descriptionObjects = [];
-
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 var mapPins = map.querySelector('.map__pins');
-var templateCard = document.querySelector('#card')
-  .content
-  .querySelector('.map__card');
+// var templateCard = document.querySelector('#card')
+//   .content
+//   .querySelector('.map__card');
 var filter = map.querySelector('.map__filters-container');
-
+var mainPin = mapPins.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var adress = adForm.querySelector('input[name=address]');
+var guestsSelect = adForm.querySelector('select[name=capacity]');
 // заполнение массивов данными
 var createStat = function (count) {
   for (var i = 1; i <= count; i++) {
@@ -95,8 +100,8 @@ var renderPin = function () {
   }
   mapPins.append(fragment);
 };
-
-var renderCard = function () {
+// отрисовка карточки
+/* var renderCard = function () {
   var cardElement = templateCard.cloneNode(true);
   var type = cardElement.querySelector('.popup__type');
   var roomsForGuests = cardElement.querySelector('.popup__text--capacity');
@@ -158,11 +163,93 @@ var renderCard = function () {
   // аватар
   cardElement.querySelector('.popup__avatar').src = descriptionObjects[0].author.avatar;
   filter.before(cardElement);
+};*/
+// деактивация инпутов
+var deactivateInputs = function (boolean) {
+  var mapFilterForm = filter.querySelector('.map__filters');
+  var mapFilters = mapFilterForm.querySelectorAll('.map__filter');
+  var mapCheckboxFieldset = mapFilterForm.querySelector('.map__features');
+  var formAvatarInput = adForm.querySelector('.ad-form-header__input');
+  var adFormFieldsets = adForm.querySelectorAll('.ad-form__element');
+  if (boolean === true) {
+    mapFilterForm.classList.add('map__filters--disabled');
+    adForm.classList.add('ad-form--disabled');
+  } else {
+    mapFilterForm.classList.remove('map__filters--disabled');
+    adForm.classList.remove('ad-form--disabled');
+  }
+  for (var i = 0; i < mapFilters.length; i++) {
+    mapFilters[i].disabled = boolean;
+  }
+  for (var j = 0; j < adFormFieldsets.length; j++) {
+    adFormFieldsets[j].disabled = boolean;
+  }
+  mapCheckboxFieldset.disabled = boolean;
+  formAvatarInput.disabled = boolean;
+};
+// активация страницы
+var onActivationPage = function (evt) {
+  if (evt.which === LEFT_MOUSE) {
+    activationPage();
+  }
+};
+var onActivationPageEnt = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    activationPage();
+  }
+};
+var activationPage = function () {
+  deactivateInputs(false);
+  map.classList.remove('map--faded');
+  adress.value = getCoordinatePin();
+  // отрисовка меток
+  renderPin();
+};
+// получение координат метки
+var getCoordinatePin = function () {
+  var box = mapPins.getBoundingClientRect();
+  var pin = mainPin.getBoundingClientRect();
+  var leftGap = box.left + pageXOffset;
+  var pinCenterY = PIN__HEIGHT / 2;
+  var pinCenterX = PIN__WIDTH / 2;
+  var pinActiveY = PIN__HEIGHT + PIN__TAIL;
+  var pinX = Math.floor((pin.left + pageXOffset) - leftGap + pinCenterX);
+  var pinY;
+  if (adForm.classList.contains('ad-form--disabled')) {
+    pinY = Math.floor((pin.top + pageYOffset) + pinCenterY);
+  } else {
+    pinY = Math.floor((pin.top + pageYOffset) + pinActiveY);
+  }
+  return pinX + ', ' + pinY;
+};
+// проверка соотношения комнат к гостям
+var roomsAndGuestsValidation = function () {
+  var roomsValue = adForm.querySelector('select[name=rooms').value;
+  var guestsValue = guestsSelect.value;
+
+  if (roomsValue === '100' && guestsValue === '0') {
+    guestsSelect.setCustomValidity('');
+  } else if (roomsValue === '1' && guestsValue === '1') {
+    guestsSelect.setCustomValidity('');
+  } else if (roomsValue >= guestsValue && guestsValue !== '0' && roomsValue !== '100') {
+    guestsSelect.setCustomValidity('');
+  } else {
+    guestsSelect.setCustomValidity('Гостей слишком много');
+  }
 };
 
+// заполнение массивов данными
 createStat(OBJECT_COUNT);
+// создание массива объектов
 createDescritionArr(OBJECT_COUNT);
-renderPin();
-renderCard();
-map.classList.remove('map--faded');
-
+// деактивация инпутов
+deactivateInputs(true);
+// начальное значение адресса
+adress.value = getCoordinatePin();
+// активация страницы
+mainPin.addEventListener('mousedown', onActivationPage);
+mainPin.addEventListener('keydown', onActivationPageEnt);
+// отрисовка карточки
+// renderCard();
+// проверка соответствия гостей и комнат
+guestsSelect.addEventListener('change', roomsAndGuestsValidation);
