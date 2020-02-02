@@ -37,6 +37,10 @@ var mainPin = mapPins.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var adress = adForm.querySelector('input[name=address]');
 var guestsSelect = adForm.querySelector('select[name=capacity]');
+var typeOfHousing = adForm.querySelector('select[name=type]');
+var pricePerNight = adForm.querySelector('input[name=price]');
+var timeIn = adForm.querySelector('select[name=timein');
+var timeOut = adForm.querySelector('select[name=timeout');
 
 // заполнение массивов данными
 var createStat = function (count) {
@@ -240,6 +244,45 @@ var roomsAndGuestsValidation = function () {
     guestsSelect.setCustomValidity('');
   }
 };
+// установка минимальной цены
+var getMinPrice = function () {
+  var type = typeOfHousing.value;
+  if (type === 'bungalo') {
+    pricePerNight.setAttribute('min', '0');
+    pricePerNight.setAttribute('placeholder', '0');
+  } else if (type === 'flat') {
+    pricePerNight.setAttribute('min', '1000');
+    pricePerNight.setAttribute('placeholder', '1000');
+  } else if (type === 'house') {
+    pricePerNight.setAttribute('min', '5000');
+    pricePerNight.setAttribute('placeholder', '5000');
+  } else if (type === 'palace') {
+    pricePerNight.setAttribute('min', '10000');
+    pricePerNight.setAttribute('placeholder', '10000');
+  }
+};
+// соотношение заезда и выезда
+var getTimeRatio = function () {
+  var timeOutOptions = timeOut.querySelectorAll('option');
+  var timeInOptions = timeIn.querySelectorAll('option');
+
+  var onChangeTimeIn = function () {
+    timeInOptions.forEach(function (item, index) {
+      if (item.selected === true) {
+        timeOutOptions[index].selected = true;
+      }
+    });
+  };
+  var onChangeTimeOut = function () {
+    timeOutOptions.forEach(function (item, index) {
+      if (item.selected === true) {
+        timeInOptions[index].selected = true;
+      }
+    });
+  };
+  timeIn.addEventListener('change', onChangeTimeIn);
+  timeOut.addEventListener('change', onChangeTimeOut);
+};
 // показ и скрытие карточки
 var getPins = function () {
   var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -268,7 +311,15 @@ var getPins = function () {
     });
   });
 };
-
+// валидация формы
+var onValidationForm = function () {
+  // проверка соотношения комнат к гостям
+  roomsAndGuestsValidation();
+  // проверка минимальной цены
+  getMinPrice();
+  // соотношение заезда и выезда
+  getTimeRatio();
+};
 // заполнение массивов данными
 createStat(OBJECT_COUNT);
 // создание массива объектов
@@ -280,5 +331,5 @@ adress.value = getCoordinatePin();
 // активация страницы
 mainPin.addEventListener('mousedown', onActivationPage);
 mainPin.addEventListener('keydown', onActivationPageEnt);
-// проверка соответствия гостей и комнат
-adForm.addEventListener('input', roomsAndGuestsValidation);
+// валидация формы
+adForm.addEventListener('input', onValidationForm);
