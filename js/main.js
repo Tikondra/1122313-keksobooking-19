@@ -1,6 +1,6 @@
 'use strict';
 
-var LEFT_MOUSE = 1;
+var LEFT_MOUSE_BUTTON_KEY = 1;
 var ENTER_KEY = 'Enter';
 var PIN__WIDTH = 65;
 var PIN__HEIGHT = 65;
@@ -36,6 +36,7 @@ var mainPin = mapPins.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
 var adress = adForm.querySelector('input[name=address]');
 var guestsSelect = adForm.querySelector('select[name=capacity]');
+
 // заполнение массивов данными
 var createStat = function (count) {
   for (var i = 1; i <= count; i++) {
@@ -165,31 +166,31 @@ var renderPin = function () {
   filter.before(cardElement);
 };*/
 // деактивация инпутов
-var deactivateInputs = function (boolean) {
+var deactivateInputs = function (state) {
   var mapFilterForm = filter.querySelector('.map__filters');
   var mapFilters = mapFilterForm.querySelectorAll('.map__filter');
   var mapCheckboxFieldset = mapFilterForm.querySelector('.map__features');
   var formAvatarInput = adForm.querySelector('.ad-form-header__input');
   var adFormFieldsets = adForm.querySelectorAll('.ad-form__element');
-  if (boolean === true) {
+  if (state === true) {
     mapFilterForm.classList.add('map__filters--disabled');
     adForm.classList.add('ad-form--disabled');
   } else {
     mapFilterForm.classList.remove('map__filters--disabled');
     adForm.classList.remove('ad-form--disabled');
   }
-  for (var i = 0; i < mapFilters.length; i++) {
-    mapFilters[i].disabled = boolean;
-  }
-  for (var j = 0; j < adFormFieldsets.length; j++) {
-    adFormFieldsets[j].disabled = boolean;
-  }
-  mapCheckboxFieldset.disabled = boolean;
-  formAvatarInput.disabled = boolean;
+  mapFilters.forEach(function (item) {
+    item.disabled = state;
+  });
+  adFormFieldsets.forEach(function (item) {
+    item.disabled = state;
+  });
+  mapCheckboxFieldset.disabled = state;
+  formAvatarInput.disabled = state;
 };
 // активация страницы
 var onActivationPage = function (evt) {
-  if (evt.which === LEFT_MOUSE) {
+  if (evt.which === LEFT_MOUSE_BUTTON_KEY) {
     activationPage();
   }
 };
@@ -223,18 +224,15 @@ var getCoordinatePin = function () {
   return pinX + ', ' + pinY;
 };
 // проверка соотношения комнат к гостям
-var roomsAndGuestsValidation = function () {
-  var roomsValue = adForm.querySelector('select[name=rooms').value;
-  var guestsValue = guestsSelect.value;
+var roomsAndGuestsValidation = function (evt) {
+  var roomsValue = Number(adForm.querySelector('select[name=rooms').value);
+  var guestsValue = Number(guestsSelect.value);
 
-  if (roomsValue === '100' && guestsValue === '0') {
-    guestsSelect.setCustomValidity('');
-  } else if (roomsValue === '1' && guestsValue === '1') {
-    guestsSelect.setCustomValidity('');
-  } else if (roomsValue >= guestsValue && guestsValue !== '0' && roomsValue !== '100') {
-    guestsSelect.setCustomValidity('');
-  } else {
+  if (roomsValue < guestsValue || (guestsValue === 0 && roomsValue !== 100) || (roomsValue === 100 && guestsValue !== 0)) {
+    evt.preventDefault();
     guestsSelect.setCustomValidity('Гостей слишком много');
+  } else {
+    guestsSelect.setCustomValidity('');
   }
 };
 
@@ -252,4 +250,4 @@ mainPin.addEventListener('keydown', onActivationPageEnt);
 // отрисовка карточки
 // renderCard();
 // проверка соответствия гостей и комнат
-guestsSelect.addEventListener('change', roomsAndGuestsValidation);
+adForm.addEventListener('input', roomsAndGuestsValidation);
