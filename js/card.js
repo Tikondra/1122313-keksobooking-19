@@ -10,18 +10,15 @@
 
   // тип жилья
   var getType = function (objectType) {
-    var type;
-
     if (objectType === 'palace') {
-      type = 'Дворец';
+      return 'Дворец';
     } else if (objectType === 'flat') {
-      type = 'Квартира';
+      return 'Квартира';
     } else if (objectType === 'house') {
-      type = 'Дом';
+      return 'Дом';
     } else {
-      type = 'Бунгало';
+      return 'Бунгало';
     }
-    return type;
   };
   // комнаты и гости
   var getRoomsAndGuests = function (rooms, guests) {
