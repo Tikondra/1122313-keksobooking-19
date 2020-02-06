@@ -32,16 +32,6 @@
       prices.push(price);
     }
   };
-  // выбор рандомного элемента из массива
-  var getRandomStat = function (arr) {
-    return Math.floor(Math.random() * arr.length);
-  };
-  // выбор рандомной длины массива
-  var getRandomLengthArr = function (arr) {
-    var start = Math.floor(Math.random() * arr.length);
-    var end = (Math.floor(Math.random() * (arr.length - start) + 1) + start);
-    return arr.slice(start, end);
-  };
   // создание массива объектов
   var createDescriptionArr = function (count) {
     for (var i = 0; i < count; i++) {
@@ -53,14 +43,14 @@
           'title': titles[i],
           'address': addresses[i],
           'price': prices[i],
-          'type': TYPES[getRandomStat(TYPES)],
-          'rooms': ROOMS[getRandomStat(ROOMS)],
-          'guests': GUESTS[getRandomStat(GUESTS)],
-          'checkin': CHECK_IN_DATES[getRandomStat(CHECK_IN_DATES)],
-          'checkout': CHECKOUTS[getRandomStat(CHECKOUTS)],
-          'features': getRandomLengthArr(FEATURES),
+          'type': TYPES[window.util.getRandomStat(TYPES)],
+          'rooms': ROOMS[window.util.getRandomStat(ROOMS)],
+          'guests': GUESTS[window.util.getRandomStat(GUESTS)],
+          'checkin': CHECK_IN_DATES[window.util.getRandomStat(CHECK_IN_DATES)],
+          'checkout': CHECKOUTS[window.util.getRandomStat(CHECKOUTS)],
+          'features': window.util.getRandomLengthArr(FEATURES),
           'description': descriptions[i],
-          'photos': getRandomLengthArr(photos),
+          'photos': window.util.getRandomLengthArr(photos),
           'location': {
             'x': LOCATIONS[0][i],
             'y': LOCATIONS[1][i]
@@ -96,8 +86,6 @@
     photos: photos,
     descriptionObjects: descriptionObjects,
     createStat: createStat,
-    getRandomStat: getRandomStat,
-    getRandomLengthArr: getRandomLengthArr,
     createDescriptionArr: createDescriptionArr
   };
 })();

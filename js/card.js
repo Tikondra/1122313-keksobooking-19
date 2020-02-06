@@ -8,18 +8,67 @@
     .content
     .querySelector('.map__card');
 
+  // тип жилья
+  var getType = function (objectType) {
+    var type;
+
+    if (objectType === 'palace') {
+      type = 'Дворец';
+    } else if (objectType === 'flat') {
+      type = 'Квартира';
+    } else if (objectType === 'house') {
+      type = 'Дом';
+    } else {
+      type = 'Бунгало';
+    }
+    return type;
+  };
+  // комнаты и гости
+  var getRoomsAndGuests = function (rooms, guests) {
+    var roomsValue = ' комнаты для ';
+    var guestsValue = ' гостей';
+    if (rooms === 1) {
+      roomsValue = ' комната для ';
+    } else if (rooms > 4) {
+      roomsValue = ' комнат для ';
+    }
+    if (guests === 1) {
+      guestsValue = ' гостя';
+    }
+    return rooms + roomsValue + guests + guestsValue;
+  };
+  // доступные функции
+  var getAvailableFeatures = function (card, features) {
+    var featuresList = card.querySelector('.popup__features');
+    var featuresItem = featuresList.querySelectorAll('.popup__feature');
+    for (var i = 0; i < featuresItem.length; i++) {
+      featuresItem[i].style.display = 'none';
+      for (var j = 0; j < features.length; j++) {
+        var availableFeatures = features[j];
+        if (featuresItem[i].className.indexOf(availableFeatures) >= 0 && featuresItem[i].className.indexOf(availableFeatures) < 35) {
+          featuresItem[i].style.display = 'inline-block';
+        }
+      }
+    }
+  };
+  // фото
+  var getPhoto = function (card, photos) {
+    var popupPhotos = card.querySelector('.popup__photos');
+    var photo = popupPhotos.querySelector('img');
+    var allPhoto = popupPhotos.querySelectorAll('img');
+    for (var k = 0; k < photos.length; k++) {
+      var photoElement = photo.cloneNode(true);
+      photoElement.src = photos[k];
+      popupPhotos.append(photoElement);
+    }
+    allPhoto[0].remove();
+  };
+
   // отрисовка карточки
   var renderCard = function (index) {
     var cardElement = templateCard.cloneNode(true);
     var type = cardElement.querySelector('.popup__type');
     var roomsForGuests = cardElement.querySelector('.popup__text--capacity');
-    var rooms = ' комнаты для ';
-    var guests = ' гостей';
-    var featuresList = cardElement.querySelector('.popup__features');
-    var featuresItem = featuresList.querySelectorAll('.popup__feature');
-    var popupPhotos = cardElement.querySelector('.popup__photos');
-    var photo = popupPhotos.querySelector('img');
-    var allPhoto = popupPhotos.querySelectorAll('img');
     // Заголовок
     cardElement.querySelector('.popup__title').textContent = window.data.descriptionObjects[index].offer.title;
     // адрес
@@ -27,47 +76,18 @@
     // цена
     cardElement.querySelector('.popup__text--price').textContent = window.data.descriptionObjects[index].offer.price + 'P/ночь';
     // тип жилья
-    if (window.data.descriptionObjects[index].offer.type === 'palace') {
-      type.textContent = 'Дворец';
-    } else if (window.data.descriptionObjects[index].offer.type === 'flat') {
-      type.textContent = 'Квартира';
-    } else if (window.data.descriptionObjects[index].offer.type === 'house') {
-      type.textContent = 'Дом';
-    } else {
-      type.textContent = 'Бунгало';
-    }
+    type.textContent = getType(window.data.descriptionObjects[index].offer.type);
     // количество комнат и гостей
-    if (window.data.descriptionObjects[index].offer.rooms === 1) {
-      rooms = ' комната для ';
-    } else if (window.data.descriptionObjects[index].offer.rooms > 4) {
-      rooms = ' комнат для ';
-    }
-    if (window.data.descriptionObjects[index].offer.guests === 1) {
-      guests = ' гостя';
-    }
-    roomsForGuests.textContent = window.data.descriptionObjects[index].offer.rooms + rooms + window.data.descriptionObjects[index].offer.guests + guests;
+    roomsForGuests.textContent = getRoomsAndGuests(window.data.descriptionObjects[index].offer.rooms, window.data.descriptionObjects[index].offer.guests);
     // время заеда и выезда
     cardElement.querySelector('.popup__text--time')
       .textContent = 'Заезд после ' + window.data.descriptionObjects[index].offer.checkin + ', выезд до ' + window.data.descriptionObjects[index].offer.checkout;
     // доступные функции
-    for (var i = 0; i < featuresItem.length; i++) {
-      featuresItem[i].style.display = 'none';
-      for (var j = 0; j < window.data.descriptionObjects[index].offer.features.length; j++) {
-        var availableFeatures = window.data.descriptionObjects[index].offer.features[j];
-        if (featuresItem[i].className.indexOf(availableFeatures) >= 0 && featuresItem[i].className.indexOf(availableFeatures) < 35) {
-          featuresItem[i].style.display = 'inline-block';
-        }
-      }
-    }
+    getAvailableFeatures(cardElement, window.data.descriptionObjects[index].offer.features);
     // описание
     cardElement.querySelector('.popup__description').textContent = window.data.descriptionObjects[index].offer.description;
     // фото
-    for (var k = 0; k < window.data.descriptionObjects[index].offer.photos.length; k++) {
-      var photoElement = photo.cloneNode(true);
-      photoElement.src = window.data.descriptionObjects[index].offer.photos[k];
-      popupPhotos.append(photoElement);
-    }
-    allPhoto[0].remove();
+    getPhoto(cardElement, window.data.descriptionObjects[index].offer.photos);
     // аватар
     cardElement.querySelector('.popup__avatar').src = window.data.descriptionObjects[index].author.avatar;
     filter.before(cardElement);

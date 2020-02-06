@@ -3,7 +3,7 @@
 (function () {
   var adForm = document.querySelector('.ad-form');
   var guestsSelect = adForm.querySelector('select[name=capacity]');
-  var typeOfHousing = adForm.querySelector('select[name=type]');
+  var typeOfHousing = adForm.querySelector('select[name=type]').value;
   var pricePerNight = adForm.querySelector('input[name=price]');
   var timeIn = adForm.querySelector('select[name=timein');
   var timeOut = adForm.querySelector('select[name=timeout');
@@ -22,8 +22,7 @@
     }
   };
   // установка минимальной цены
-  var getMinPrice = function () {
-    var type = typeOfHousing.value;
+  var getMinPrice = function (type) {
     if (type === 'bungalo') {
       pricePerNight.setAttribute('min', '0');
       pricePerNight.setAttribute('placeholder', '0');
@@ -65,7 +64,7 @@
     // проверка соотношения комнат к гостям
     roomsAndGuestsValidation();
     // проверка минимальной цены
-    getMinPrice();
+    getMinPrice(typeOfHousing);
     // соотношение заезда и выезда
     getTimeRatio();
   };
