@@ -10,10 +10,10 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS__OK) {
         onLoad(xhr.response);
+        getPins();
       } else {
         onError('Статус ответа: ' + xhr.status + '' + xhr.statusText);
       }
-      getPins();
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
