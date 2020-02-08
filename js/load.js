@@ -4,16 +4,16 @@
   var URL = 'https://js.dump.academy/keksobooking/data';
   var TIMEOUT = 10000;
   var STATUS__OK = 200;
-  var load = function (onLoad, onError) {
+  var load = function (onLoad, onError, getPins) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS__OK) {
         onLoad(xhr.response);
-        window.card.getPins();
       } else {
         onError('Статус ответа: ' + xhr.status + '' + xhr.statusText);
       }
+      getPins();
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
