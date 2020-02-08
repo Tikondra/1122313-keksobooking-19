@@ -46,8 +46,7 @@
     map.classList.remove('map--faded');
     address.value = window.pin.getCoordinatePin();
     // отрисовка меток
-    window.pin.renderPin();
-    window.card.getPins();
+    window.load.load(window.pin.renderPin, window.load.onError);
     mainPin.removeEventListener('mousedown', onActivationPage);
     mainPin.removeEventListener('keydown', onActivationPageEnt);
   };
