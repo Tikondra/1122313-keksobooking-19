@@ -3,8 +3,8 @@
 (function () {
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
-  var filter = map.querySelector('.map__filters-container');
   var mainPin = mapPins.querySelector('.map__pin--main');
+  var filter = map.querySelector('.map__filters-container');
   var adForm = document.querySelector('.ad-form');
   var address = adForm.querySelector('input[name=address]');
   // деактивация инпутов
@@ -44,35 +44,18 @@
   var activationPage = function () {
     deactivateInputs(false);
     map.classList.remove('map--faded');
-    address.value = getCoordinatePin();
+    address.value = window.pin.getCoordinatePin();
     // отрисовка меток
     window.pin.renderPin();
     window.card.getPins();
     mainPin.removeEventListener('mousedown', onActivationPage);
     mainPin.removeEventListener('keydown', onActivationPageEnt);
   };
-  // получение координат метки
-  var getCoordinatePin = function () {
-    var box = mapPins.getBoundingClientRect();
-    var pin = mainPin.getBoundingClientRect();
-    var leftGap = box.left + pageXOffset;
-    var pinCenterY = window.data.PIN__HEIGHT / 2;
-    var pinCenterX = window.data.PIN__WIDTH / 2;
-    var pinActiveY = window.data.PIN__HEIGHT + window.data.PIN__TAIL;
-    var pinX = Math.floor((pin.left + pageXOffset) - leftGap + pinCenterX);
-    var pinY;
-    if (adForm.classList.contains('ad-form--disabled')) {
-      pinY = Math.floor((pin.top + pageYOffset) + pinCenterY);
-    } else {
-      pinY = Math.floor((pin.top + pageYOffset) + pinActiveY);
-    }
-    return pinX + ', ' + pinY;
-  };
 
   // деактивация инпутов
   deactivateInputs(true);
   // начальное значение адресса
-  address.value = getCoordinatePin();
+  address.value = window.pin.getCoordinatePin();
   // активация страницы
   mainPin.addEventListener('mousedown', onActivationPage);
   mainPin.addEventListener('keydown', onActivationPageEnt);

@@ -1,9 +1,16 @@
 'use strict';
 
 (function () {
+  var MIN__Y = 130;
+  var MAX__Y = 630;
+  var MIN__X = -30;
+  var MAX__X = 1160;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var filter = map.querySelector('.map__filters-container');
+  var mainPin = mapPins.querySelector('.map__pin--main');
+  var adForm = document.querySelector('.ad-form');
+  var address = adForm.querySelector('input[name=address]');
   var templateCard = document.querySelector('#card')
     .content
     .querySelector('.map__card');
@@ -89,7 +96,6 @@
     cardElement.querySelector('.popup__avatar').src = window.data.descriptionObjects[index].author.avatar;
     filter.before(cardElement);
   };
-
   // показ и скрытие карточки
   var getPins = function () {
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -118,9 +124,74 @@
       });
     });
   };
+  // ограничения метки по вертикали
+  var getMaxMinY = function (top) {
+    if (top < MIN__Y) {
+      return MIN__Y;
+    } else if (top > MAX__Y) {
+      return MAX__Y;
+    } else {
+      return top;
+    }
+  };
+  // ограничения метки по горизонтали
+  var getMaxMinX = function (left) {
+    if (left < MIN__X) {
+      return MIN__X;
+    } else if (left > MAX__X) {
+      return MAX__X;
+    } else {
+      return left;
+    }
+  };
+  // Перетаскивание метки
+  var onMovePin = function (evt) {
+
+    evt.preventDefault();
+    if (map.classList.contains('map--faded') === false) {
+      var startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
+      };
+
+      var onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+        var top = mainPin.offsetTop - shift.y;
+        var left = mainPin.offsetLeft - shift.x;
+
+        mainPin.style.top = getMaxMinY(top) + 'px';
+        mainPin.style.left = getMaxMinX(left) + 'px';
+
+        address.value = window.pin.getCoordinatePin();
+      };
+      var onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
+        address.value = window.pin.getCoordinatePin();
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    }
+  };
+
+  // перетаскивание метки
+  mainPin.addEventListener('mousedown', onMovePin);
 
   window.card = {
     renderCard: renderCard,
     getPins: getPins
   };
 })();
+
