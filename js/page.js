@@ -50,12 +50,29 @@
     mainPin.removeEventListener('mousedown', onActivationPage);
     mainPin.removeEventListener('keydown', onActivationPageEnt);
   };
+  // деактивация страницы
+  var deactivationPage = function () {
+    var card = map.querySelector('.map__card');
+    map.classList.add('map--faded');
+    // деактивация инпутов
+    deactivateInputs(true);
+    // удаление меток
+    window.pin.deletePins();
+    // удаление карточки
+    if (card) {
+      card.remove();
+    }
+    adForm.reset();
+    // начальное значение адресса
+    address.value = window.pin.getCoordinatePin();
+    // активация страницы
+    mainPin.addEventListener('mousedown', onActivationPage);
+    mainPin.addEventListener('keydown', onActivationPageEnt);
+  };
 
-  // деактивация инпутов
-  deactivateInputs(true);
-  // начальное значение адресса
-  address.value = window.pin.getCoordinatePin();
-  // активация страницы
-  mainPin.addEventListener('mousedown', onActivationPage);
-  mainPin.addEventListener('keydown', onActivationPageEnt);
+  deactivationPage();
+
+  window.page = {
+    deactivationPage: deactivationPage
+  };
 })();

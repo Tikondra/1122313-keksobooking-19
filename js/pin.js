@@ -41,9 +41,17 @@
     }
     return pinX + ', ' + pinY;
   };
+  // удаление меток
+  var deletePins = function () {
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (item) {
+      item.remove();
+    });
+  };
 
   window.pin = {
     renderPin: renderPin,
-    getCoordinatePin: getCoordinatePin
+    getCoordinatePin: getCoordinatePin,
+    deletePins: deletePins
   };
 })();

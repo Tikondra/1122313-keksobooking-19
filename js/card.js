@@ -110,7 +110,10 @@
       document.addEventListener('keydown', onHideCardEsc);
     };
     var onHideCard = function () {
-      map.querySelector('.map__card').remove();
+      var card = map.querySelector('.map__card');
+      if (card) {
+        card.remove();
+      }
       document.removeEventListener('keydown', onHideCardEsc);
     };
     var onHideCardEsc = function (evt) {
