@@ -10,15 +10,15 @@
     .querySelector('.map__pin');
 
   // отрисовка меток
-  var renderPin = function () {
+  var renderPin = function (adsData) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.data.descriptionObjects.length; i++) {
+    for (var i = 0; i < window.data.OBJECT_COUNT; i++) {
       var pinElement = templatePin.cloneNode(true);
-      pinElement.style.left = window.data.descriptionObjects[i].offer.location.x + 'px';
-      pinElement.style.top = window.data.descriptionObjects[i].offer.location.y + 'px';
-      pinElement.querySelector('img').src = window.data.descriptionObjects[i].author.avatar;
-      pinElement.querySelector('img').alt = window.data.descriptionObjects[i].offer.title;
+      pinElement.style.left = adsData[i].location.x + 'px';
+      pinElement.style.top = adsData[i].location.y + 'px';
+      pinElement.querySelector('img').src = adsData[i].author.avatar;
+      pinElement.querySelector('img').alt = adsData[i].offer.title;
 
       fragment.append(pinElement);
     }
