@@ -2,7 +2,7 @@
 
 (function () {
   var URL = 'https://js.dump.academy/keksobooking/data';
-  var URL__SAVE = 'https://js.dump.academy/keksobking';
+  var URL__SAVE = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
   var STATUS__OK = 200;
   var templateError = document.querySelector('#error')
