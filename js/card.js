@@ -96,6 +96,13 @@
     cardElement.querySelector('.popup__avatar').src = window.data.descriptionObjects[index].author.avatar;
     filter.before(cardElement);
   };
+  // удаление карточки
+  var deleteCard = function () {
+    var card = map.querySelector('.map__card');
+    if (card) {
+      card.remove();
+    }
+  };
   // показ и скрытие карточки
   var getPins = function () {
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -110,10 +117,7 @@
       document.addEventListener('keydown', onHideCardEsc);
     };
     var onHideCard = function () {
-      var card = map.querySelector('.map__card');
-      if (card) {
-        card.remove();
-      }
+      deleteCard();
       document.removeEventListener('keydown', onHideCardEsc);
     };
     var onHideCardEsc = function (evt) {
@@ -194,7 +198,8 @@
 
   window.card = {
     renderCard: renderCard,
-    getPins: getPins
+    getPins: getPins,
+    deleteCard: deleteCard
   };
 })();
 
