@@ -12,7 +12,7 @@
     var mapFilterForm = filter.querySelector('.map__filters');
     var mapFilters = mapFilterForm.querySelectorAll('.map__filter');
     var mapCheckboxFieldset = mapFilterForm.querySelector('.map__features');
-    if (state === true) {
+    if (state) {
       mapFilterForm.classList.add('map__filters--disabled');
     } else {
       mapFilterForm.classList.remove('map__filters--disabled');
@@ -25,7 +25,7 @@
   var deactivateFormInputs = function (state) {
     var formAvatarInput = adForm.querySelector('.ad-form-header__input');
     var adFormFieldsets = adForm.querySelectorAll('.ad-form__element');
-    if (state === true) {
+    if (state) {
       adForm.classList.add('ad-form--disabled');
     } else {
       adForm.classList.remove('ad-form--disabled');

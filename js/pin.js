@@ -12,8 +12,9 @@
   // отрисовка меток
   var renderPin = function (adsData) {
     var fragment = document.createDocumentFragment();
+    var countPin = Math.min(adsData.length, window.data.OBJECT_COUNT);
 
-    for (var i = 0; i < adsData.length && i < window.data.OBJECT_COUNT; i++) {
+    for (var i = 0; i < countPin; i++) {
       var pinElement = templatePin.cloneNode(true);
       pinElement.style.left = adsData[i].location.x + 'px';
       pinElement.style.top = adsData[i].location.y + 'px';
