@@ -6,22 +6,26 @@
   var adds = [];
   var type = 'any'; // любой тип
 
+  // отрисовка меток и карт
+  var render = function (data) {
+    window.pin.renderPin(data);
+    window.card.getPins(data);
+  };
   // загрузка данных
   var loadAdds = function (data) {
     adds = data;
-    window.pin.renderPin(data);
+    render(data);
   };
   // фильтрация
   var updatePins = function () {
     if (type === 'any') {
-      window.pin.renderPin(adds);
+      render(adds);
     } else {
       var sameTypeAdds = adds.filter(function (it) {
         return it.offer.type === type;
       });
-      window.pin.renderPin(sameTypeAdds);
+      render(sameTypeAdds);
     }
-    window.card.getPins();
   };
   var onSelectType = function () {
     type = selectType.value;
