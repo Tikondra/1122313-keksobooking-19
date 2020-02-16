@@ -66,6 +66,7 @@
     document.addEventListener('click', onHideError);
     document.querySelector('main')
       .append(error);
+    window.page.deactivateFilterInputs(true);
   };
 
   window.load = {

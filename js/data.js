@@ -4,7 +4,7 @@
   var PIN__WIDTH = 65;
   var PIN__HEIGHT = 65;
   var PIN__TAIL = 19;
-  var OBJECT_COUNT = 8;
+  var OBJECT_COUNT = 5;
   var TYPES = ['palace', 'flat', 'house', 'bungalo'];
   var ROOMS = [1, 2, 3, 4, 5];
   var GUESTS = [1, 2, 3, 4, 5];
