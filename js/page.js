@@ -52,7 +52,7 @@
     map.classList.remove('map--faded');
     address.value = window.pin.getCoordinatePin();
     // загрузка данных, отрисовка меток, и навешивание обработчиков на них
-    window.load.load(window.filter.loadAdds, window.load.onError, window.card.getPins);
+    window.load.load(window.filter.loadAdds, window.load.onError);
     mainPin.removeEventListener('mousedown', onActivationPage);
     mainPin.removeEventListener('keydown', onActivationPageEnt);
   };

@@ -67,33 +67,32 @@
     }
     allPhoto[0].remove();
   };
-
   // отрисовка карточки
-  var renderCard = function (index) {
+  var renderCard = function (data, index) {
     var cardElement = templateCard.cloneNode(true);
     var type = cardElement.querySelector('.popup__type');
     var roomsForGuests = cardElement.querySelector('.popup__text--capacity');
     // Заголовок
-    cardElement.querySelector('.popup__title').textContent = window.data.descriptionObjects[index].offer.title;
+    cardElement.querySelector('.popup__title').textContent = data[index].offer.title;
     // адрес
-    cardElement.querySelector('.popup__text--address').textContent = window.data.descriptionObjects[index].offer.address;
+    cardElement.querySelector('.popup__text--address').textContent = data[index].offer.address;
     // цена
-    cardElement.querySelector('.popup__text--price').textContent = window.data.descriptionObjects[index].offer.price + 'P/ночь';
+    cardElement.querySelector('.popup__text--price').textContent = data[index].offer.price + 'P/ночь';
     // тип жилья
-    type.textContent = getType(window.data.descriptionObjects[index].offer.type);
+    type.textContent = getType(data[index].offer.type);
     // количество комнат и гостей
-    roomsForGuests.textContent = getRoomsAndGuests(window.data.descriptionObjects[index].offer.rooms, window.data.descriptionObjects[index].offer.guests);
+    roomsForGuests.textContent = getRoomsAndGuests(data[index].offer.rooms, data[index].offer.guests);
     // время заеда и выезда
     cardElement.querySelector('.popup__text--time')
-      .textContent = 'Заезд после ' + window.data.descriptionObjects[index].offer.checkin + ', выезд до ' + window.data.descriptionObjects[index].offer.checkout;
+      .textContent = 'Заезд после ' + data[index].offer.checkin + ', выезд до ' + data[index].offer.checkout;
     // доступные функции
-    getAvailableFeatures(cardElement, window.data.descriptionObjects[index].offer.features);
+    getAvailableFeatures(cardElement, data[index].offer.features);
     // описание
-    cardElement.querySelector('.popup__description').textContent = window.data.descriptionObjects[index].offer.description;
+    cardElement.querySelector('.popup__description').textContent = data[index].offer.description;
     // фото
-    getPhoto(cardElement, window.data.descriptionObjects[index].offer.photos);
+    getPhoto(cardElement, data[index].offer.photos);
     // аватар
-    cardElement.querySelector('.popup__avatar').src = window.data.descriptionObjects[index].author.avatar;
+    cardElement.querySelector('.popup__avatar').src = data[index].author.avatar;
     filter.before(cardElement);
   };
   // удаление карточки
@@ -104,14 +103,14 @@
     }
   };
   // показ и скрытие карточки
-  var getPins = function () {
+  var getPins = function (data) {
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
     var onShowCard = function (index) {
       var activeCard = map.querySelector('.map__card');
       if (activeCard) {
         activeCard.remove();
       }
-      renderCard(index);
+      renderCard(data, index);
       var cardCloseBtn = map.querySelector('.popup__close');
       cardCloseBtn.addEventListener('click', onHideCard);
       document.addEventListener('keydown', onHideCardEsc);

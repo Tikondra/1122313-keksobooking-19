@@ -8,13 +8,12 @@
   var templateError = document.querySelector('#error')
     .content
     .querySelector('.error');
-  var load = function (onLoad, onError, getPins) {
+  var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === STATUS__OK) {
         onLoad(xhr.response);
-        getPins();
       } else {
         onError('Статус ответа: ' + xhr.status + '' + xhr.statusText);
       }
