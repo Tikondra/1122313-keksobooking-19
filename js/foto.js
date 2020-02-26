@@ -2,12 +2,20 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-  var FOTO__SIZE = 70;
+  var PHOTO__SIZE = 70;
+  var DEFAULT__AVATAR = 'img/muffin-grey.svg';
   var avatarChooser = document.querySelector('.ad-form-header__input');
   var previewAvatar = document.querySelector('.ad-form-header__preview img');
-  var fotoAdChooser = document.querySelector('.ad-form__input');
-  var fotoAdBox = document.querySelector('.ad-form__photo');
+  var photoAdChooser = document.querySelector('.ad-form__input');
+  var photoAdBox = document.querySelector('.ad-form__photo');
 
+  var resetPhoto = function () {
+    var activePhoto = photoAdBox.querySelector('img');
+    if (activePhoto) {
+      activePhoto.remove();
+    }
+    previewAvatar.src = DEFAULT__AVATAR;
+  };
   var loadImg = function (evt, preview) {
     var file = evt.target.files[0];
     var fileName = file.name.toLowerCase();
@@ -29,17 +37,18 @@
   var onLoadAvatar = function (evt) {
     loadImg(evt, previewAvatar);
   };
-  var onLoadFoto = function (evt) {
-    var activeFoto = fotoAdBox.querySelector('img');
-    if (activeFoto) {
-      activeFoto.remove();
-    }
-    var previewAdFoto = document.createElement('img');
-    previewAdFoto.width = FOTO__SIZE;
-    previewAdFoto.height = FOTO__SIZE;
-    fotoAdBox.append(previewAdFoto);
-    loadImg(evt, previewAdFoto);
+  var onLoadPhoto = function (evt) {
+    resetPhoto();
+    var previewAdPhoto = document.createElement('img');
+    previewAdPhoto.width = PHOTO__SIZE;
+    previewAdPhoto.height = PHOTO__SIZE;
+    photoAdBox.append(previewAdPhoto);
+    loadImg(evt, previewAdPhoto);
   };
   avatarChooser.addEventListener('change', onLoadAvatar);
-  fotoAdChooser.addEventListener('change', onLoadFoto);
+  photoAdChooser.addEventListener('change', onLoadPhoto);
+
+  window.foto = {
+    resetPhoto: resetPhoto
+  };
 })();

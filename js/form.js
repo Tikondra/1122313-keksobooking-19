@@ -93,6 +93,7 @@
   // отправка формы
   var getPostForm = function () {
     window.page.deactivationPage();
+    window.foto.resetPhoto();
     creatSuccess();
   };
 
@@ -105,6 +106,7 @@
   resetBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
     adForm.reset();
+    window.foto.resetPhoto();
     address.value = window.pin.getCoordinatePin();
   });
 })();
