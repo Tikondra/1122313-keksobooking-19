@@ -14,6 +14,9 @@
     if (activePhoto) {
       activePhoto.remove();
     }
+  };
+  var resetAllPhoto = function () {
+    resetPhoto();
     previewAvatar.src = DEFAULT__AVATAR;
   };
   var loadImg = function (evt, preview) {
@@ -49,6 +52,6 @@
   photoAdChooser.addEventListener('change', onLoadPhoto);
 
   window.foto = {
-    resetPhoto: resetPhoto
+    resetPhoto: resetAllPhoto
   };
 })();

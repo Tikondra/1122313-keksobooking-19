@@ -2,7 +2,6 @@
 
 (function () {
   var adForm = document.querySelector('.ad-form');
-  var address = adForm.querySelector('input[name=address]');
   var guestsSelect = adForm.querySelector('select[name=capacity]');
   var typeOfHousing = adForm.querySelector('select[name=type]').value;
   var pricePerNight = adForm.querySelector('input[name=price]');
@@ -104,8 +103,6 @@
   });
   resetBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
-    adForm.reset();
-    window.foto.resetPhoto();
-    address.value = window.pin.getCoordinatePin();
+    window.page.deactivationPage();
   });
 })();
