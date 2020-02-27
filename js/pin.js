@@ -50,10 +50,16 @@
       item.remove();
     });
   };
+  // сброс главной метки
+  var resetMainPin = function () {
+    mainPin.style.top = window.data.DEFAULT__TOP__MAIN__PIN + 'px';
+    mainPin.style.left = window.data.DEFAULT__LEFT__MAIN__PIN + 'px';
+  };
 
   window.pin = {
     renderPin: renderPin,
     getCoordinatePin: getCoordinatePin,
-    deletePins: deletePins
+    deletePins: deletePins,
+    resetMainPin: resetMainPin
   };
 })();

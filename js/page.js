@@ -5,11 +5,11 @@
   var mapPins = map.querySelector('.map__pins');
   var mainPin = mapPins.querySelector('.map__pin--main');
   var filter = map.querySelector('.map__filters-container');
+  var mapFilterForm = filter.querySelector('.map__filters');
   var adForm = document.querySelector('.ad-form');
   var address = adForm.querySelector('input[name=address]');
   // деактивация инпутов
   var deactivateFilterInputs = function (state) {
-    var mapFilterForm = filter.querySelector('.map__filters');
     var mapFilters = mapFilterForm.querySelectorAll('.map__filter');
     var mapCheckboxFieldset = mapFilterForm.querySelector('.map__features');
     if (state) {
@@ -66,7 +66,14 @@
     window.pin.deletePins();
     // удаление карточки
     window.card.deleteCard();
+    // сброс загруженных изображений
+    window.foto.resetPhoto();
+    // сброс формы
     adForm.reset();
+    // сброс фильтра
+    mapFilterForm.reset();
+    // сброс метки
+    window.pin.resetMainPin();
     // начальное значение адресса
     address.value = window.pin.getCoordinatePin();
     // активация страницы

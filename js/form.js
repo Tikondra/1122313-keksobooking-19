@@ -93,7 +93,6 @@
   // отправка формы
   var getPostForm = function () {
     window.page.deactivationPage();
-    window.foto.resetPhoto();
     creatSuccess();
   };
 
