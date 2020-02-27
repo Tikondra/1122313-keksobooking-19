@@ -2,9 +2,9 @@
 
 (function () {
   var URL = 'https://js.dump.academy/keksobooking/data';
-  var URL__SAVE = 'https://js.dump.academy/keksobooking';
+  var URL_SAVE = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
-  var STATUS__OK = 200;
+  var STATUS_OK = 200;
   var templateError = document.querySelector('#error')
     .content
     .querySelector('.error');
@@ -12,7 +12,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS__OK) {
+      if (xhr.status === STATUS_OK) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + '' + xhr.statusText);
@@ -32,7 +32,7 @@
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS__OK) {
+      if (xhr.status === STATUS_OK) {
         onLoad(xhr.response);
       } else {
         onError('Ошибка загрузки объявления');
@@ -45,7 +45,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
     xhr.timeout = TIMEOUT;
-    xhr.open('POST', URL__SAVE);
+    xhr.open('POST', URL_SAVE);
     xhr.send(data);
   };
   var onError = function (errorMessage) {

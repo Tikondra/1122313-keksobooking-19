@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var DEBOUNCE__INTERVAL = 500;
+  var DEBOUNCE_INTERVAL = 500;
 
   // выбор рандомного элемента из массива
   var getRandomStat = function (arr) {
@@ -24,7 +24,7 @@
       }
       lastTimeout = window.setTimeout(function () {
         cb.apply(null, parameters);
-      }, DEBOUNCE__INTERVAL);
+      }, DEBOUNCE_INTERVAL);
     };
   };
 

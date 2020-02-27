@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var MIN__Y = 130;
-  var MAX__Y = 630;
-  var MIN__X = -30;
-  var MAX__X = 1160;
+  var MIN_Y = 130;
+  var MAX_Y = 630;
+  var MIN_X = -30;
+  var MAX_X = 1160;
   var map = document.querySelector('.map');
   var mapPins = map.querySelector('.map__pins');
   var filter = map.querySelector('.map__filters-container');
@@ -60,11 +60,11 @@
     var popupPhotos = card.querySelector('.popup__photos');
     var photo = popupPhotos.querySelector('img');
     var allPhoto = popupPhotos.querySelectorAll('img');
-    for (var k = 0; k < photos.length; k++) {
+    photos.forEach(function (item) {
       var photoElement = photo.cloneNode(true);
-      photoElement.src = photos[k];
+      photoElement.src = item;
       popupPhotos.append(photoElement);
-    }
+    });
     allPhoto[0].remove();
   };
   // отрисовка карточки
@@ -132,27 +132,25 @@
   };
   // ограничения метки по вертикали
   var getMaxMinY = function (top) {
-    if (top < MIN__Y) {
-      return MIN__Y;
-    } else if (top > MAX__Y) {
-      return MAX__Y;
-    } else {
-      return top;
+    if (top < MIN_Y) {
+      return MIN_Y;
+    } else if (top > MAX_Y) {
+      return MAX_Y;
     }
+    return top;
   };
   // ограничения метки по горизонтали
   var getMaxMinX = function (left) {
-    if (left < MIN__X) {
-      return MIN__X;
-    } else if (left > MAX__X) {
-      return MAX__X;
+    if (left < MIN_X) {
+      return MIN_X;
+    } else if (left > MAX_X) {
+      return MAX_X;
     } else {
       return left;
     }
   };
   // Перетаскивание метки
   var onMovePin = function (evt) {
-
     evt.preventDefault();
     if (map.classList.contains('map--faded') === false) {
       var startCoords = {

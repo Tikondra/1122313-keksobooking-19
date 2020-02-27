@@ -48,14 +48,14 @@
 
     var onChangeTimeIn = function () {
       timeInOptions.forEach(function (item, index) {
-        if (item.selected === true) {
+        if (item.selected) {
           timeOutOptions[index].selected = true;
         }
       });
     };
     var onChangeTimeOut = function () {
       timeOutOptions.forEach(function (item, index) {
-        if (item.selected === true) {
+        if (item.selected) {
           timeInOptions[index].selected = true;
         }
       });
