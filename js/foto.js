@@ -36,6 +36,7 @@
 
       reader.readAsDataURL(file);
     }
+    evt.target.value = '';
   };
   var onLoadAvatar = function (evt) {
     loadImg(evt, previewAvatar);
