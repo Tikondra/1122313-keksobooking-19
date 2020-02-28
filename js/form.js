@@ -17,6 +17,10 @@
     HOUSE: 'house',
     PALACE: 'palace'
   };
+  var ErrorMessage = {
+    LOW: 'Гостей слишком мало',
+    MANY: 'Гостей слишком много'
+  };
 
   // проверка соотношения комнат к гостям
   var roomsAndGuestsValidation = function () {
@@ -24,9 +28,9 @@
     var guestsValue = Number(guestsSelect.value);
 
     if (roomsValue !== 100 && guestsValue === 0) {
-      guestsSelect.setCustomValidity('Гостей слишком мало');
+      guestsSelect.setCustomValidity(ErrorMessage.LOW);
     } else if (roomsValue < guestsValue || (guestsValue === 0 && roomsValue !== 100) || (roomsValue === 100 && guestsValue !== 0)) {
-      guestsSelect.setCustomValidity('Гостей слишком много');
+      guestsSelect.setCustomValidity(ErrorMessage.MANY);
     } else {
       guestsSelect.setCustomValidity('');
     }

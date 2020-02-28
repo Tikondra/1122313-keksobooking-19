@@ -14,17 +14,29 @@
   var templateCard = document.querySelector('#card')
     .content
     .querySelector('.map__card');
+  var TypeOfHousing = {
+    PALACE: 'Дворец',
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
+    BUNGALO: 'Бунгало'
+  };
+  var InputTypeOfHousing = {
+    PALACE: 'palace',
+    FLAT: 'flat',
+    HOUSE: 'house',
+    BUNGALO: 'bungalo'
+  };
 
   // тип жилья
   var getType = function (objectType) {
-    if (objectType === 'palace') {
-      return 'Дворец';
-    } else if (objectType === 'flat') {
-      return 'Квартира';
-    } else if (objectType === 'house') {
-      return 'Дом';
+    if (objectType === InputTypeOfHousing.PALACE) {
+      return TypeOfHousing.PALACE;
+    } else if (objectType === InputTypeOfHousing.FLAT) {
+      return TypeOfHousing.FLAT;
+    } else if (objectType === InputTypeOfHousing.HOUSE) {
+      return TypeOfHousing.HOUSE;
     } else {
-      return 'Бунгало';
+      return TypeOfHousing.BUNGALO;
     }
   };
   // комнаты и гости

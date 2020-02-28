@@ -5,6 +5,8 @@
   var URL_SAVE = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
   var STATUS_OK = 200;
+  var GET = 'GET';
+  var POST = 'POST';
   var templateError = document.querySelector('#error')
     .content
     .querySelector('.error');
@@ -25,7 +27,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
     xhr.timeout = TIMEOUT;
-    xhr.open('GET', URL);
+    xhr.open(GET, URL);
     xhr.send();
   };
   var save = function (data, onLoad, onError) {
@@ -45,7 +47,7 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
     xhr.timeout = TIMEOUT;
-    xhr.open('POST', URL_SAVE);
+    xhr.open(POST, URL_SAVE);
     xhr.send(data);
   };
   var onError = function (errorMessage) {
