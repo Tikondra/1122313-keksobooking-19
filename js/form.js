@@ -3,7 +3,7 @@
 (function () {
   var adForm = document.querySelector('.ad-form');
   var guestsSelect = adForm.querySelector('select[name=capacity]');
-  var typeOfHousing = adForm.querySelector('select[name=type]').value;
+  var typeOfHousing = adForm.querySelector('select[name=type]');
   var pricePerNight = adForm.querySelector('input[name=price]');
   var timeIn = adForm.querySelector('select[name=timein');
   var timeOut = adForm.querySelector('select[name=timeout');
@@ -11,6 +11,12 @@
     .content
     .querySelector('.success');
   var resetBtn = adForm.querySelector('.ad-form__reset');
+  var TypeOfHousing = {
+    BUNGALO: 'bungalo',
+    FLAT: 'flat',
+    HOUSE: 'house',
+    PALACE: 'palace'
+  };
 
   // проверка соотношения комнат к гостям
   var roomsAndGuestsValidation = function () {
@@ -26,17 +32,18 @@
     }
   };
   // установка минимальной цены
-  var getMinPrice = function (type) {
-    if (type === 'bungalo') {
+  var getMinPrice = function () {
+    var type = typeOfHousing.value;
+    if (type === TypeOfHousing.BUNGALO) {
       pricePerNight.setAttribute('min', '0');
       pricePerNight.setAttribute('placeholder', '0');
-    } else if (type === 'flat') {
+    } else if (type === TypeOfHousing.FLAT) {
       pricePerNight.setAttribute('min', '1000');
       pricePerNight.setAttribute('placeholder', '1000');
-    } else if (type === 'house') {
+    } else if (type === TypeOfHousing.HOUSE) {
       pricePerNight.setAttribute('min', '5000');
       pricePerNight.setAttribute('placeholder', '5000');
-    } else if (type === 'palace') {
+    } else if (type === TypeOfHousing.PALACE) {
       pricePerNight.setAttribute('min', '10000');
       pricePerNight.setAttribute('placeholder', '10000');
     }
@@ -68,7 +75,7 @@
     // проверка соотношения комнат к гостям
     roomsAndGuestsValidation();
     // проверка минимальной цены
-    getMinPrice(typeOfHousing);
+    getMinPrice();
     // соотношение заезда и выезда
     getTimeRatio();
   };

@@ -7,12 +7,12 @@
   var selectRooms = filter.querySelector('#housing-rooms');
   var selectGuests = filter.querySelector('#housing-guests');
   var featuresList = filter.querySelector('#housing-features');
-  var adds = [];
+  var ads = [];
   var defaultValue = 'any'; // любой тип дефолт
 
   // загрузка данных
   var loadAdds = function (data) {
-    adds = data;
+    ads = data;
     render(data);
   };
   // отрисовка меток и карт
@@ -20,9 +20,9 @@
     window.pin.renderPin(data);
     window.card.getPins(data);
   };
-  // фильтр по типу
+  // фильтр
   var filterPins = function () {
-    var sameAdds = adds.filter(function (add) {
+    var sameAdds = ads.filter(function (add) {
       if (selectType.value === defaultValue) {
         return true;
       }
